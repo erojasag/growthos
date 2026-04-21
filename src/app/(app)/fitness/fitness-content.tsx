@@ -20,6 +20,9 @@ import {
   Flame as FlameIcon,
   TrendingUp,
   Trash2,
+  Zap,
+  CalendarDays,
+  X,
 } from "lucide-react";
 import {
   LineChart,
@@ -54,6 +57,45 @@ const workoutTypes = [
 ];
 
 
+interface ExerciseEntry {
+  name: string;
+  sets: string;
+  reps: string;
+  weight: string;
+}
+
+const emptyExercise = (): ExerciseEntry => ({ name: "", sets: "", reps: "", weight: "" });
+
+function getWorkoutStreak(workouts: Workout[]): number {
+  if (!workouts.length) return 0;
+  const uniqueDates = [...new Set(workouts.map((w) => w.date))].sort(
+    (a, b) => new Date(b).getTime() - new Date(a).getTime()
+  );
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  let streak = 0;
+  for (let i = 0; i < uniqueDates.length; i++) {
+    const expected = new Date(today);
+    expected.setDate(expected.getDate() - i);
+    const expStr = expected.toISOString().split("T")[0];
+    if (uniqueDates[i] === expStr) {
+      streak++;
+    } else if (i === 0) {
+      // Allow today to be missing (streak from yesterday)
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+      if (uniqueDates[i] === yesterday.toISOString().split("T")[0]) {
+        streak++;
+      } else {
+        break;
+      }
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
 export function FitnessContent() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [weightData, setWeightData] = useState<{ date: string; weight: number }[]>([]);
@@ -65,6 +107,7 @@ export function FitnessContent() {
     duration: "",
     calories: "",
   });
+  const [exercises, setExercises] = useState<ExerciseEntry[]>([emptyExercise()]);
 
   const fetchData = useCallback(async () => {
     const supabase = createClient();
@@ -150,6 +193,32 @@ export function FitnessContent() {
       .single();
 
     if (data && !error) {
+      // Insert exercises if any have a name
+      const validExercises = exercises.filter((e) => e.name.trim());
+      let savedExercises: { name: string; sets: number; reps: number; weight: number }[] = [];
+      if (validExercises.length > 0) {
+        const { data: exData } = await supabase
+          .from("exercises")
+          .insert(
+            validExercises.map((e, i) => ({
+              workout_id: data.id,
+              name: e.name,
+              sets: Number(e.sets) || null,
+              reps: Number(e.reps) || null,
+              weight: Number(e.weight) || null,
+              order_index: i,
+            }))
+          )
+          .select();
+        if (exData) {
+          savedExercises = exData.map((e) => ({
+            name: e.name,
+            sets: e.sets ?? 0,
+            reps: e.reps ?? 0,
+            weight: e.weight ?? 0,
+          }));
+        }
+      }
       setWorkouts([
         {
           id: data.id,
@@ -158,12 +227,13 @@ export function FitnessContent() {
           duration: data.duration_minutes ?? 0,
           calories: data.calories_burned ?? 0,
           date: data.completed_at.split("T")[0],
-          exercises: [],
+          exercises: savedExercises,
         },
         ...workouts,
       ]);
     }
-    setNewWorkout({ name: "", type: "Strength", duration: "", calories: "" });
+    setNewWorkout({ name: "", type: "Fuerza", duration: "", calories: "" });
+    setExercises([emptyExercise()]);
     setShowDialog(false);
   };
 
@@ -175,6 +245,17 @@ export function FitnessContent() {
 
   const totalDuration = workouts.reduce((sum, w) => sum + w.duration, 0);
   const totalCalories = workouts.reduce((sum, w) => sum + w.calories, 0);
+
+  // Weekly stats
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+  startOfWeek.setHours(0, 0, 0, 0);
+  const weekStr = startOfWeek.toISOString().split("T")[0];
+  const weekWorkouts = workouts.filter((w) => w.date >= weekStr);
+  const weekDuration = weekWorkouts.reduce((sum, w) => sum + w.duration, 0);
+  const weekCalories = weekWorkouts.reduce((sum, w) => sum + w.calories, 0);
+  const streak = getWorkoutStreak(workouts);
 
   if (loading) {
     return (
@@ -199,8 +280,8 @@ export function FitnessContent() {
         </Button>
       </div>
 
-      {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      {/* Weekly Stats */}
+      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
         <Card>
           <CardContent className="p-4 flex items-center gap-3">
             <div className="rounded-lg bg-blue-100 p-2.5 dark:bg-blue-900/30">
@@ -208,9 +289,10 @@ export function FitnessContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Total Entrenos
+                Esta Semana
               </p>
-              <p className="text-xl font-bold">{workouts.length}</p>
+              <p className="text-xl font-bold">{weekWorkouts.length}</p>
+              <p className="text-[10px] text-zinc-400 dark:text-zinc-500">{workouts.length} total</p>
             </div>
           </CardContent>
         </Card>
@@ -221,9 +303,10 @@ export function FitnessContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Minutos Totales
+                Minutos
               </p>
-              <p className="text-xl font-bold">{totalDuration}</p>
+              <p className="text-xl font-bold">{weekDuration}</p>
+              <p className="text-[10px] text-zinc-400 dark:text-zinc-500">{totalDuration} total</p>
             </div>
           </CardContent>
         </Card>
@@ -234,9 +317,36 @@ export function FitnessContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Calorías Quemadas
+                Calorías
               </p>
-              <p className="text-xl font-bold">{totalCalories.toLocaleString()}</p>
+              <p className="text-xl font-bold">{weekCalories.toLocaleString()}</p>
+              <p className="text-[10px] text-zinc-400 dark:text-zinc-500">{totalCalories.toLocaleString()} total</p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 flex items-center gap-3">
+            <div className="rounded-lg bg-purple-100 p-2.5 dark:bg-purple-900/30">
+              <Zap className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+            </div>
+            <div>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                Racha
+              </p>
+              <p className="text-xl font-bold">{streak} <span className="text-sm font-normal">días</span></p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 flex items-center gap-3">
+            <div className="rounded-lg bg-sky-100 p-2.5 dark:bg-sky-900/30">
+              <CalendarDays className="h-5 w-5 text-sky-600 dark:text-sky-400" />
+            </div>
+            <div>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                Promedio
+              </p>
+              <p className="text-xl font-bold">{weekDuration > 0 && weekWorkouts.length > 0 ? Math.round(weekDuration / weekWorkouts.length) : 0} <span className="text-sm font-normal">min/entreno</span></p>
             </div>
           </CardContent>
         </Card>
@@ -300,32 +410,45 @@ export function FitnessContent() {
               {workouts.map((workout) => (
                 <div
                   key={workout.id}
-                  className="flex items-center justify-between rounded-lg border border-zinc-200 p-3 dark:border-zinc-800"
+                  className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-800"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-lg bg-zinc-100 p-2 dark:bg-zinc-800">
-                      <Dumbbell className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">{workout.name}</p>
-                      <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-                        <span>{workout.duration} min</span>
-                        <span>•</span>
-                        <span>{workout.calories} cal</span>
-                        <span>•</span>
-                        <span>{workout.date}</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="rounded-lg bg-zinc-100 p-2 dark:bg-zinc-800">
+                        <Dumbbell className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">{workout.name}</p>
+                        <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                          <span>{workout.duration} min</span>
+                          <span>•</span>
+                          <span>{workout.calories} cal</span>
+                          <span>•</span>
+                          <span>{workout.date}</span>
+                        </div>
                       </div>
                     </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary">{workout.type}</Badge>
+                      <button
+                        onClick={() => handleDelete(workout.id)}
+                        className="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-red-500 dark:hover:bg-zinc-800"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary">{workout.type}</Badge>
-                    <button
-                      onClick={() => handleDelete(workout.id)}
-                      className="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-red-500 dark:hover:bg-zinc-800"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
+                  {workout.exercises.length > 0 && (
+                    <div className="mt-2 ml-11 space-y-1">
+                      {workout.exercises.map((ex, i) => (
+                        <div key={i} className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                          <span className="font-medium text-zinc-600 dark:text-zinc-300">{ex.name}</span>
+                          {ex.sets > 0 && <span>{ex.sets}×{ex.reps}</span>}
+                          {ex.weight > 0 && <span>· {ex.weight} lbs</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -390,6 +513,77 @@ export function FitnessContent() {
                 }
                 className="mt-1"
               />
+            </div>
+          </div>
+          {/* Exercises */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-medium">Ejercicios (opcional)</label>
+              <button
+                type="button"
+                onClick={() => setExercises([...exercises, emptyExercise()])}
+                className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                + Agregar ejercicio
+              </button>
+            </div>
+            <div className="space-y-2 max-h-[200px] overflow-y-auto">
+              {exercises.map((ex, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <Input
+                    placeholder="Nombre"
+                    value={ex.name}
+                    onChange={(e) => {
+                      const updated = [...exercises];
+                      updated[i] = { ...updated[i], name: e.target.value };
+                      setExercises(updated);
+                    }}
+                    className="flex-1"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Series"
+                    value={ex.sets}
+                    onChange={(e) => {
+                      const updated = [...exercises];
+                      updated[i] = { ...updated[i], sets: e.target.value };
+                      setExercises(updated);
+                    }}
+                    className="w-16"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Reps"
+                    value={ex.reps}
+                    onChange={(e) => {
+                      const updated = [...exercises];
+                      updated[i] = { ...updated[i], reps: e.target.value };
+                      setExercises(updated);
+                    }}
+                    className="w-16"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Peso"
+                    value={ex.weight}
+                    onChange={(e) => {
+                      const updated = [...exercises];
+                      updated[i] = { ...updated[i], weight: e.target.value };
+                      setExercises(updated);
+                    }}
+                    className="w-16"
+                  />
+                  {exercises.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => setExercises(exercises.filter((_, j) => j !== i))}
+                      className="rounded p-1 text-zinc-400 hover:text-red-500"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-2">

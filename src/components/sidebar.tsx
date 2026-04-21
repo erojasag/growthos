@@ -15,6 +15,7 @@ import {
   User,
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { logout } from "@/app/actions/auth";
 
@@ -29,11 +30,15 @@ export function Sidebar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userAvatar, setUserAvatar] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUserEmail(user?.email ?? null);
+      setUserAvatar(user?.user_metadata?.avatar_url ?? null);
+      setUserName(user?.user_metadata?.full_name ?? user?.user_metadata?.name ?? null);
     });
   }, []);
 
@@ -125,12 +130,30 @@ export function Sidebar() {
           <div className="mt-auto space-y-3 border-t border-zinc-200 pt-4 dark:border-zinc-800">
             {userEmail && (
               <div className="flex items-center gap-2 px-1">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
-                  <User className="h-4 w-4 text-zinc-500" />
+                {userAvatar ? (
+                  <Image
+                    src={userAvatar}
+                    alt={userName ?? "Avatar"}
+                    width={32}
+                    height={32}
+                    className="h-8 w-8 shrink-0 rounded-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+                    <User className="h-4 w-4 text-zinc-500" />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  {userName && (
+                    <p className="truncate text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                      {userName}
+                    </p>
+                  )}
+                  <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+                    {userEmail}
+                  </p>
                 </div>
-                <span className="truncate text-xs text-zinc-600 dark:text-zinc-400">
-                  {userEmail}
-                </span>
               </div>
             )}
             <form action={logout}>
