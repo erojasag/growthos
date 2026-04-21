@@ -30,6 +30,7 @@ import {
   Landmark,
   Repeat,
   Wallet,
+  Loader2,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import {
@@ -109,6 +110,7 @@ export function FinancesContent() {
   const [budgets, setBudgets] = useState<{ category: string; amount: number }[]>([]);
   const [loading, setLoading] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [newTx, setNewTx] = useState({
     amount: "",
     category: "Comida y Restaurantes",
@@ -396,7 +398,9 @@ export function FinancesContent() {
   }));
 
   const handleAddTransaction = async () => {
-    if (!newTx.amount) return;
+    if (!newTx.amount || saving) return;
+    setSaving(true);
+    try {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -446,6 +450,7 @@ export function FinancesContent() {
     }
     setNewTx({ amount: "", category: "Comida y Restaurantes", description: "", currency: "CRC", cardId: "" });
     setShowDialog(false);
+    } finally { setSaving(false); }
   };
 
   const handleDelete = async (id: string) => {
@@ -455,7 +460,9 @@ export function FinancesContent() {
   };
 
   const handleUpdateIncome = async () => {
-    if (!newIncome) return;
+    if (!newIncome || saving) return;
+    setSaving(true);
+    try {
     setIncomeError(null);
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -487,10 +494,13 @@ export function FinancesContent() {
     );
     setNewIncome("");
     setShowIncomeDialog(false);
+    } finally { setSaving(false); }
   };
 
   const handleAddSource = async () => {
-    if (!newSource.name || !newSource.amount) return;
+    if (!newSource.name || !newSource.amount || saving) return;
+    setSaving(true);
+    try {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -514,10 +524,13 @@ export function FinancesContent() {
     }
     setNewSource({ name: "", amount: "", frequency: "monthly" });
     setShowSourceDialog(false);
+    } finally { setSaving(false); }
   };
 
   const handleAddCard = async () => {
-    if (!newCard.name || !newCard.last_four) return;
+    if (!newCard.name || !newCard.last_four || saving) return;
+    setSaving(true);
+    try {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -554,6 +567,7 @@ export function FinancesContent() {
     }
     setNewCard({ name: "", last_four: "", credit_limit: "", balance_crc: "", balance_usd: "", billing_date: "1", due_date: "15" });
     setShowCardDialog(false);
+    } finally { setSaving(false); }
   };
 
   const handleDeleteCard = async (id: string) => {
@@ -565,7 +579,9 @@ export function FinancesContent() {
   const [paymentCurrency, setPaymentCurrency] = useState<"CRC" | "USD">("CRC");
 
   const handleLogPayment = async () => {
-    if (!paymentCardId || !paymentAmount) return;
+    if (!paymentCardId || !paymentAmount || saving) return;
+    setSaving(true);
+    try {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -618,10 +634,13 @@ export function FinancesContent() {
     setPaymentCardId(null);
     setPaymentCurrency("CRC");
     setShowPaymentDialog(false);
+    } finally { setSaving(false); }
   };
 
   const handleAddRecurring = async () => {
-    if (!newRecurring.name || !newRecurring.amount) return;
+    if (!newRecurring.name || !newRecurring.amount || saving) return;
+    setSaving(true);
+    try {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -646,6 +665,7 @@ export function FinancesContent() {
     }
     setNewRecurring({ name: "", amount: "", category: "Servicios y Utilidades", currency: "CRC" });
     setShowRecurringDialog(false);
+    } finally { setSaving(false); }
   };
 
   const handleDeleteRecurring = async (id: string) => {
@@ -655,7 +675,9 @@ export function FinancesContent() {
   };
 
   const handleAddInvestment = async () => {
-    if (!newInvest.name || !newInvest.amount) return;
+    if (!newInvest.name || !newInvest.amount || saving) return;
+    setSaving(true);
+    try {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -679,6 +701,7 @@ export function FinancesContent() {
     }
     setNewInvest({ name: "", amount: "", notes: "" });
     setShowInvestDialog(false);
+    } finally { setSaving(false); }
   };
 
   const handleDeleteInvestment = async (id: string) => {
@@ -1647,7 +1670,10 @@ export function FinancesContent() {
             <Button variant="outline" onClick={() => setShowDialog(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleAddTransaction}>Guardar</Button>
+            <Button onClick={handleAddTransaction} disabled={saving}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {saving ? "Guardando..." : "Guardar"}
+            </Button>
           </div>
         </div>
       </Dialog>
@@ -1686,7 +1712,10 @@ export function FinancesContent() {
             <Button variant="outline" onClick={() => setShowIncomeDialog(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleUpdateIncome}>Guardar Ingreso</Button>
+            <Button onClick={handleUpdateIncome} disabled={saving}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {saving ? "Guardando..." : "Guardar Ingreso"}
+            </Button>
           </div>
         </div>
       </Dialog>
@@ -1736,7 +1765,10 @@ export function FinancesContent() {
             <Button variant="outline" onClick={() => setShowSourceDialog(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleAddSource}>Agregar Fuente</Button>
+            <Button onClick={handleAddSource} disabled={saving}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {saving ? "Agregando..." : "Agregar Fuente"}
+            </Button>
           </div>
         </div>
       </Dialog>
@@ -1800,7 +1832,10 @@ export function FinancesContent() {
             <Button variant="outline" onClick={() => setShowRecurringDialog(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleAddRecurring}>Agregar Gasto</Button>
+            <Button onClick={handleAddRecurring} disabled={saving}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {saving ? "Agregando..." : "Agregar Gasto"}
+            </Button>
           </div>
         </div>
       </Dialog>
@@ -1849,7 +1884,10 @@ export function FinancesContent() {
             <Button variant="outline" onClick={() => setShowInvestDialog(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleAddInvestment}>Agregar Inversión</Button>
+            <Button onClick={handleAddInvestment} disabled={saving}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {saving ? "Agregando..." : "Agregar Inversión"}
+            </Button>
           </div>
         </div>
       </Dialog>
@@ -1955,7 +1993,10 @@ export function FinancesContent() {
             <Button variant="outline" onClick={() => setShowCardDialog(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleAddCard}>Agregar Tarjeta</Button>
+            <Button onClick={handleAddCard} disabled={saving}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {saving ? "Agregando..." : "Agregar Tarjeta"}
+            </Button>
           </div>
         </div>
       </Dialog>
@@ -2025,8 +2066,9 @@ export function FinancesContent() {
             <Button variant="outline" onClick={() => { setShowPaymentDialog(false); setPaymentCardId(null); setPaymentAmount(""); setPaymentCurrency("CRC"); }}>
               Cancelar
             </Button>
-            <Button onClick={handleLogPayment} disabled={!paymentCardId || !paymentAmount}>
-              Registrar Pago
+            <Button onClick={handleLogPayment} disabled={saving || !paymentCardId || !paymentAmount}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {saving ? "Registrando..." : "Registrar Pago"}
             </Button>
           </div>
         </div>
