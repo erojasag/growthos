@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { logout } from "@/app/actions/auth";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigation = [
   { name: "Panel", href: "/dashboard", icon: LayoutDashboard },
@@ -96,6 +97,9 @@ export function Sidebar() {
                 );
               })}
             </nav>
+            <div className="mt-auto border-t border-zinc-200 px-3 pt-4 pb-4 dark:border-zinc-800">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       )}
@@ -128,6 +132,7 @@ export function Sidebar() {
             })}
           </nav>
           <div className="mt-auto space-y-3 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+            <ThemeToggle />
             {userEmail && (
               <div className="flex items-center gap-2 px-1">
                 {userAvatar ? (
