@@ -3,15 +3,19 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
+const ALLOWED_CURRENCIES = ["CRC", "USD"];
+
 export async function completeSetup(formData: FormData) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const monthlyIncome = Number(formData.get("monthlyIncome")) || 0;
-  const incomeCurrency = (formData.get("incomeCurrency") as string) || "CRC";
-  const spendingCurrency = (formData.get("spendingCurrency") as string) || "CRC";
-  const fullName = formData.get("fullName") as string;
+  const monthlyIncome = Math.max(0, Math.min(Number(formData.get("monthlyIncome")) || 0, 999_999_999));
+  const incomeCurrency = ALLOWED_CURRENCIES.includes(formData.get("incomeCurrency") as string)
+    ? (formData.get("incomeCurrency") as string) : "CRC";
+  const spendingCurrency = ALLOWED_CURRENCIES.includes(formData.get("spendingCurrency") as string)
+    ? (formData.get("spendingCurrency") as string) : "CRC";
+  const fullName = (formData.get("fullName") as string)?.trim().slice(0, 100);
 
   if (fullName) {
     await supabase
@@ -62,8 +66,9 @@ export async function updateMonthlyIncome(formData: FormData) {
     }
   }
 
-  const monthlyIncome = Number(formData.get("monthlyIncome")) || 0;
-  const incomeCurrency = (formData.get("incomeCurrency") as string) || undefined;
+  const monthlyIncome = Math.max(0, Math.min(Number(formData.get("monthlyIncome")) || 0, 999_999_999));
+  const rawCurrency = formData.get("incomeCurrency") as string;
+  const incomeCurrency = ALLOWED_CURRENCIES.includes(rawCurrency) ? rawCurrency : undefined;
 
   const { error } = await supabase
     .from("user_settings")
@@ -83,8 +88,10 @@ export async function updateCurrencyPreferences(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
 
-  const spendingCurrency = formData.get("spendingCurrency") as string;
-  const incomeCurrency = formData.get("incomeCurrency") as string;
+  const spendingCurrency = ALLOWED_CURRENCIES.includes(formData.get("spendingCurrency") as string)
+    ? (formData.get("spendingCurrency") as string) : "CRC";
+  const incomeCurrency = ALLOWED_CURRENCIES.includes(formData.get("incomeCurrency") as string)
+    ? (formData.get("incomeCurrency") as string) : "CRC";
 
   const { error } = await supabase
     .from("user_settings")

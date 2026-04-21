@@ -4,26 +4,43 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 export async function login(formData: FormData) {
+  const email = (formData.get("email") as string)?.trim();
+  const password = formData.get("password") as string;
+
+  if (!email || !password || email.length > 254 || password.length > 128) {
+    return { error: "Invalid credentials" };
+  }
+
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
+    email,
+    password,
   });
 
   if (error) {
-    return { error: error.message };
+    return { error: "Invalid credentials" };
   }
 
   redirect("/dashboard");
 }
 
 export async function signup(formData: FormData) {
-  const supabase = await createClient();
-
-  const email = formData.get("email") as string;
+  const email = (formData.get("email") as string)?.trim();
   const password = formData.get("password") as string;
-  const fullName = formData.get("fullName") as string;
+  const fullName = (formData.get("fullName") as string)?.trim();
+
+  if (!email || !password || email.length > 254 || password.length > 128) {
+    return { error: "Invalid input" };
+  }
+  if (password.length < 8) {
+    return { error: "Password must be at least 8 characters" };
+  }
+  if (fullName && fullName.length > 100) {
+    return { error: "Name is too long" };
+  }
+
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.signUp({
     email,
