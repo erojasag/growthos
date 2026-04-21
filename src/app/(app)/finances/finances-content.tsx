@@ -708,7 +708,7 @@ export function FinancesContent() {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Finanzas</h1>
           <p className="text-zinc-500 dark:text-zinc-400">
@@ -725,7 +725,7 @@ export function FinancesContent() {
       {settings && (
         <Card className="border-emerald-200 dark:border-emerald-900/50">
           <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Banknote className="h-5 w-5 text-emerald-500" />
                 Resumen de Ingresos
@@ -737,7 +737,7 @@ export function FinancesContent() {
                 className="gap-1.5"
               >
                 <Plus className="h-3 w-3" />
-                Agregar Fuente
+                <span className="hidden sm:inline">Agregar</span> Fuente
               </Button>
             </div>
           </CardHeader>
@@ -837,7 +837,7 @@ export function FinancesContent() {
       {/* Fixed Monthly Bills */}
       <Card className="border-orange-200 dark:border-orange-900/50">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Repeat className="h-5 w-5 text-orange-500" />
               Gastos Fijos Mensuales
@@ -849,7 +849,7 @@ export function FinancesContent() {
               className="gap-1.5"
             >
               <Plus className="h-3 w-3" />
-              Agregar Gasto Fijo
+              <span className="hidden sm:inline">Agregar</span> Gasto Fijo
             </Button>
           </div>
         </CardHeader>
@@ -1010,7 +1010,7 @@ export function FinancesContent() {
       {/* Investments */}
       <Card className="border-purple-200 dark:border-purple-900/50">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Landmark className="h-5 w-5 text-purple-500" />
               Inversiones
@@ -1022,7 +1022,7 @@ export function FinancesContent() {
               className="gap-1.5"
             >
               <Plus className="h-3 w-3" />
-              Agregar Inversión
+              <span className="hidden sm:inline">Agregar</span> Inversión
             </Button>
           </div>
         </CardHeader>
@@ -1088,12 +1088,12 @@ export function FinancesContent() {
       {/* Credit Cards */}
       <Card className="border-sky-200 dark:border-sky-900/50">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <CardTitle className="flex items-center gap-2 text-lg">
               <CreditCard className="h-5 w-5 text-sky-500" />
               Tarjetas de Crédito
             </CardTitle>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {creditCards.length > 0 && (
                 <Button
                   variant="outline"
@@ -1102,7 +1102,7 @@ export function FinancesContent() {
                   className="gap-1.5"
                 >
                   <Wallet className="h-3 w-3" />
-                  Registrar Pago
+                  <span className="hidden sm:inline">Registrar</span> Pago
                 </Button>
               )}
               <Button
@@ -1112,7 +1112,7 @@ export function FinancesContent() {
                 className="gap-1.5"
               >
                 <Plus className="h-3 w-3" />
-                Agregar Tarjeta
+                <span className="hidden sm:inline">Agregar</span> Tarjeta
               </Button>
             </div>
           </div>
