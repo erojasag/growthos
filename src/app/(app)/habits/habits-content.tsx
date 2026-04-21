@@ -26,6 +26,7 @@ import {
   Brain,
   Heart,
   Zap,
+  Loader2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -102,6 +103,7 @@ export function HabitsContent() {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [loading, setLoading] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [newHabit, setNewHabit] = useState({
     name: "",
     icon: "Target",
@@ -203,7 +205,9 @@ export function HabitsContent() {
   };
 
   const handleAddHabit = async () => {
-    if (!newHabit.name) return;
+    if (!newHabit.name || saving) return;
+    setSaving(true);
+    try {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -238,6 +242,7 @@ export function HabitsContent() {
 
     setNewHabit({ name: "", icon: "Target", color: "bg-blue-500", frequency: "daily" });
     setShowDialog(false);
+    } finally { setSaving(false); }
   };
 
   const handleDelete = async (id: string) => {
@@ -490,7 +495,10 @@ export function HabitsContent() {
             <Button variant="outline" onClick={() => setShowDialog(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleAddHabit}>Crear Hábito</Button>
+            <Button onClick={handleAddHabit} disabled={saving}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {saving ? "Creando..." : "Crear Hábito"}
+            </Button>
           </div>
         </div>
       </Dialog>
