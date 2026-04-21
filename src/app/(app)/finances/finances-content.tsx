@@ -58,14 +58,14 @@ interface Transaction {
 }
 
 const expenseCategories = [
-  "Food & Dining",
-  "Transportation",
-  "Shopping",
-  "Bills & Utilities",
-  "Entertainment",
-  "Health",
-  "Education",
-  "Other",
+  "Comida y Restaurantes",
+  "Transporte",
+  "Compras",
+  "Servicios y Utilidades",
+  "Entretenimiento",
+  "Salud",
+  "Educación",
+  "Otro",
 ];
 
 const PIE_COLORS = [
@@ -111,7 +111,7 @@ export function FinancesContent() {
   const [showDialog, setShowDialog] = useState(false);
   const [newTx, setNewTx] = useState({
     amount: "",
-    category: "Food & Dining",
+    category: "Comida y Restaurantes",
     description: "",
     currency: "CRC",
     cardId: "",
@@ -140,7 +140,7 @@ export function FinancesContent() {
     { id: string; name: string; amount: number; currency: string; category: string }[]
   >([]);
   const [showRecurringDialog, setShowRecurringDialog] = useState(false);
-  const [newRecurring, setNewRecurring] = useState({ name: "", amount: "", category: "Bills & Utilities", currency: "CRC" });
+  const [newRecurring, setNewRecurring] = useState({ name: "", amount: "", category: "Servicios y Utilidades", currency: "CRC" });
 
   // Credit cards
   interface CreditCardData {
@@ -444,7 +444,7 @@ export function FinancesContent() {
         }
       }
     }
-    setNewTx({ amount: "", category: "Food & Dining", description: "", currency: "CRC", cardId: "" });
+    setNewTx({ amount: "", category: "Comida y Restaurantes", description: "", currency: "CRC", cardId: "" });
     setShowDialog(false);
   };
 
@@ -644,7 +644,7 @@ export function FinancesContent() {
         { id: data.id, name: data.name, amount: Number(data.amount), currency: data.currency ?? "CRC", category: data.category },
       ]);
     }
-    setNewRecurring({ name: "", amount: "", category: "Bills & Utilities", currency: "CRC" });
+    setNewRecurring({ name: "", amount: "", category: "Servicios y Utilidades", currency: "CRC" });
     setShowRecurringDialog(false);
   };
 
@@ -710,14 +710,14 @@ export function FinancesContent() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Finances</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Finanzas</h1>
           <p className="text-zinc-500 dark:text-zinc-400">
-            Track income, expenses, and budgets.
+            Registra ingresos, gastos y presupuestos.
           </p>
         </div>
         <Button onClick={() => setShowDialog(true)}>
           <Plus className="h-4 w-4" />
-          Add Expense
+          Agregar Gasto
         </Button>
       </div>
 
@@ -728,7 +728,7 @@ export function FinancesContent() {
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Banknote className="h-5 w-5 text-emerald-500" />
-                Income Overview
+                Resumen de Ingresos
               </CardTitle>
               <Button
                 variant="outline"
@@ -737,19 +737,19 @@ export function FinancesContent() {
                 className="gap-1.5"
               >
                 <Plus className="h-3 w-3" />
-                Add Source
+                Agregar Fuente
               </Button>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             {/* Total Real Income */}
             <div className="rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
-              <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Total Real Income</p>
+              <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Ingreso Real Total</p>
               <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
                 {formatCurrency(totalRealIncome, incomeCurrency)}
               </p>
               <p className="mt-0.5 text-xs text-emerald-600/70 dark:text-emerald-400/70">
-                Monthly salary + all extra sources
+                Salario mensual + fuentes adicionales
               </p>
             </div>
 
@@ -762,8 +762,8 @@ export function FinancesContent() {
                     <DollarSign className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium">Monthly Salary</p>
-                    <p className="text-xs text-zinc-400 dark:text-zinc-500">Base income</p>
+                    <p className="text-sm font-medium">Salario Mensual</p>
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500">Ingreso base</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -782,7 +782,7 @@ export function FinancesContent() {
                     }}
                     disabled={!canEditIncome}
                     className="h-7 w-7 p-0"
-                    title={canEditIncome ? "Edit income" : `Locked for ${daysUntilEdit} more days`}
+                    title={canEditIncome ? "Editar ingreso" : `Bloqueado por ${daysUntilEdit} días más`}
                   >
                     {canEditIncome ? (
                       <Pencil className="h-3 w-3" />
@@ -806,7 +806,7 @@ export function FinancesContent() {
                     <div>
                       <p className="text-sm font-medium">{source.name}</p>
                       <Badge variant="secondary" className="text-[10px]">
-                        {source.frequency === "monthly" ? "Monthly" : "One-time"}
+                        {source.frequency === "monthly" ? "Mensual" : "Único"}
                       </Badge>
                     </div>
                   </div>
@@ -826,7 +826,7 @@ export function FinancesContent() {
 
               {incomeSources.length === 0 && (
                 <p className="py-2 text-center text-sm text-zinc-400 dark:text-zinc-500">
-                  No extra income sources yet. Click &quot;Add Source&quot; to add one.
+                  Aún no hay fuentes de ingreso adicionales. Haz clic en &quot;Agregar Fuente&quot; para añadir una.
                 </p>
               )}
             </div>
@@ -840,7 +840,7 @@ export function FinancesContent() {
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Repeat className="h-5 w-5 text-orange-500" />
-              Fixed Monthly Bills
+              Gastos Fijos Mensuales
             </CardTitle>
             <Button
               variant="outline"
@@ -849,18 +849,18 @@ export function FinancesContent() {
               className="gap-1.5"
             >
               <Plus className="h-3 w-3" />
-              Add Bill
+              Agregar Gasto Fijo
             </Button>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="rounded-lg bg-orange-50 p-4 dark:bg-orange-900/20">
-            <p className="text-sm font-medium text-orange-700 dark:text-orange-300">Total Fixed Costs</p>
+            <p className="text-sm font-medium text-orange-700 dark:text-orange-300">Total Gastos Fijos</p>
             <p className="text-3xl font-bold text-orange-600 dark:text-orange-400">
               {formatCurrency(totalRecurring, currency)}
             </p>
             <p className="mt-0.5 text-xs text-orange-600/70 dark:text-orange-400/70">
-              {recurringExpenses.length} recurring bill{recurringExpenses.length !== 1 ? "s" : ""} per month
+              {recurringExpenses.length} gasto{recurringExpenses.length !== 1 ? "s" : ""} fijo{recurringExpenses.length !== 1 ? "s" : ""} al mes
             </p>
           </div>
 
@@ -904,7 +904,7 @@ export function FinancesContent() {
 
             {recurringExpenses.length === 0 && (
               <p className="py-2 text-center text-sm text-zinc-400 dark:text-zinc-500">
-                No fixed bills yet. Click &quot;Add Bill&quot; to track recurring costs.
+                Aún no hay gastos fijos. Haz clic en &quot;Agregar Gasto Fijo&quot; para registrar costos recurrentes.
               </p>
             )}
           </div>
@@ -920,7 +920,7 @@ export function FinancesContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Fixed Bills
+                Gastos Fijos
               </p>
               <p className="text-xl font-bold text-orange-600 dark:text-orange-400">
                 {formatCurrency(totalRecurring, currency)}
@@ -935,7 +935,7 @@ export function FinancesContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Other Expenses
+                Otros Gastos
               </p>
               <p className="text-xl font-bold text-red-600 dark:text-red-400">
                 {formatCurrency(totalExpenses, currency)}
@@ -951,7 +951,7 @@ export function FinancesContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Card Payments
+                Pagos a Tarjetas
               </p>
               <p className="text-xl font-bold text-sky-600 dark:text-sky-400">
                 {formatCurrency(totalCardPayments, currency)}
@@ -967,7 +967,7 @@ export function FinancesContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Remaining
+                Disponible
               </p>
               <p className={`text-xl font-bold ${remaining >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
                 {formatCurrency(remaining, currency)}
@@ -982,7 +982,7 @@ export function FinancesContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Savings Rate
+                Tasa de Ahorro
               </p>
               <p className={`text-xl font-bold ${savingsRate >= 0 ? "text-blue-600 dark:text-blue-400" : "text-amber-600 dark:text-amber-400"}`}>
                 {savingsRate}%
@@ -997,7 +997,7 @@ export function FinancesContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Total Invested
+                Total Invertido
               </p>
               <p className="text-xl font-bold text-purple-600 dark:text-purple-400">
                 {formatCurrency(totalInvested, currency)}
@@ -1013,7 +1013,7 @@ export function FinancesContent() {
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Landmark className="h-5 w-5 text-purple-500" />
-              Investments
+              Inversiones
             </CardTitle>
             <Button
               variant="outline"
@@ -1022,19 +1022,19 @@ export function FinancesContent() {
               className="gap-1.5"
             >
               <Plus className="h-3 w-3" />
-              Add Investment
+              Agregar Inversión
             </Button>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Total invested highlight */}
           <div className="rounded-lg bg-purple-50 p-4 dark:bg-purple-900/20">
-            <p className="text-sm font-medium text-purple-700 dark:text-purple-300">Total Invested</p>
+            <p className="text-sm font-medium text-purple-700 dark:text-purple-300">Total Invertido</p>
             <p className="text-3xl font-bold text-purple-600 dark:text-purple-400">
               {formatCurrency(totalInvested, currency)}
             </p>
             <p className="mt-0.5 text-xs text-purple-600/70 dark:text-purple-400/70">
-              Across {investments.length} investment{investments.length !== 1 ? "s" : ""}
+              {investments.length} inversión{investments.length !== 1 ? "es" : ""} registrada{investments.length !== 1 ? "s" : ""}
             </p>
           </div>
 
@@ -1078,7 +1078,7 @@ export function FinancesContent() {
 
             {investments.length === 0 && (
               <p className="py-2 text-center text-sm text-zinc-400 dark:text-zinc-500">
-                No investments yet. Click &quot;Add Investment&quot; to start tracking.
+                Aún no hay inversiones. Haz clic en &quot;Agregar Inversión&quot; para comenzar.
               </p>
             )}
           </div>
@@ -1091,7 +1091,7 @@ export function FinancesContent() {
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-lg">
               <CreditCard className="h-5 w-5 text-sky-500" />
-              Credit Cards
+              Tarjetas de Crédito
             </CardTitle>
             <div className="flex gap-2">
               {creditCards.length > 0 && (
@@ -1102,7 +1102,7 @@ export function FinancesContent() {
                   className="gap-1.5"
                 >
                   <Wallet className="h-3 w-3" />
-                  Log Payment
+                  Registrar Pago
                 </Button>
               )}
               <Button
@@ -1112,7 +1112,7 @@ export function FinancesContent() {
                 className="gap-1.5"
               >
                 <Plus className="h-3 w-3" />
-                Add Card
+                Agregar Tarjeta
               </Button>
             </div>
           </div>
@@ -1145,7 +1145,7 @@ export function FinancesContent() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge variant="secondary" className={`text-[10px] ${dueColor}`}>
-                          Due day {card.due_date} ({daysUntilDue}d)
+                          Vence día {card.due_date} ({daysUntilDue}d)
                         </Badge>
                         <button
                           onClick={() => handleDeleteCard(card.id)}
@@ -1156,8 +1156,8 @@ export function FinancesContent() {
                       </div>
                     </div>
                     <div className="mb-2 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
-                      <span>Limit: {formatCurrency(card.credit_limit, "USD")} ≈ {formatCurrency(limitCrc, "CRC")}</span>
-                      <span className={`font-semibold ${textColor}`}>{utilization}% used</span>
+                      <span>Límite: {formatCurrency(card.credit_limit, "USD")} ≈ {formatCurrency(limitCrc, "CRC")}</span>
+                      <span className={`font-semibold ${textColor}`}>{utilization}% usado</span>
                     </div>
                     <div className="h-2 w-full rounded-full bg-zinc-100 dark:bg-zinc-800 mb-2">
                       <div className={`h-full rounded-full transition-all ${barColor}`} style={{ width: `${Math.min(100, utilization)}%` }} />
@@ -1165,7 +1165,7 @@ export function FinancesContent() {
                     <div className="flex gap-4 text-[11px] text-zinc-400 dark:text-zinc-500">
                       {card.balance_crc > 0 && <span>₡ {formatCurrency(card.balance_crc, "CRC")}</span>}
                       {card.balance_usd > 0 && <span>$ {formatCurrency(card.balance_usd, "USD")}</span>}
-                      {card.balance_crc === 0 && card.balance_usd === 0 && <span>No balance</span>}
+                      {card.balance_crc === 0 && card.balance_usd === 0 && <span>Sin saldo</span>}
                     </div>
                   </div>
                 );
@@ -1173,7 +1173,7 @@ export function FinancesContent() {
             </div>
           ) : (
             <p className="py-2 text-center text-sm text-zinc-400 dark:text-zinc-500">
-              No credit cards yet. Click &quot;Add Card&quot; to start tracking.
+              Aún no hay tarjetas. Haz clic en &quot;Agregar Tarjeta&quot; para comenzar.
             </p>
           )}
         </CardContent>
@@ -1183,7 +1183,7 @@ export function FinancesContent() {
       {cardPayments.length > 0 && (() => {
         const paymentsByCard = cardPayments.reduce((acc, p) => {
           const card = creditCards.find((c) => c.id === p.card_id);
-          const label = card ? `${card.name} (${card.last_four})` : "Unknown";
+          const label = card ? `${card.name} (${card.last_four})` : "Desconocido";
           if (!acc[label]) acc[label] = { crc: 0, usd: 0 };
           if (p.currency === "USD") acc[label].usd += p.amount;
           else acc[label].crc += p.amount;
@@ -1201,7 +1201,7 @@ export function FinancesContent() {
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Wallet className="h-5 w-5 text-sky-500" />
-                Card Payments This Month
+                Pagos a Tarjetas Este Mes
               </CardTitle>
               <CardDescription>
                 Total: {formatCurrency(totalCardPayments, currency)}
@@ -1266,9 +1266,9 @@ export function FinancesContent() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-blue-500" />
-              Monthly Expenses
+              Gastos Mensuales
             </CardTitle>
-            <CardDescription>Spending over time</CardDescription>
+            <CardDescription>Gastos a lo largo del tiempo</CardDescription>
           </CardHeader>
           <CardContent>
             {monthlyData.length > 0 ? (
@@ -1297,14 +1297,14 @@ export function FinancesContent() {
                     dataKey="expenses"
                     fill="#ef4444"
                     radius={[4, 4, 0, 0]}
-                    name="Expenses"
+                    name="Gastos"
                   />
                 </BarChart>
               </ResponsiveContainer>
             </div>
             ) : (
               <p className="py-12 text-center text-sm text-zinc-400 dark:text-zinc-500">
-                No expense data yet. Add transactions to see trends.
+                Aún no hay datos de gastos. Agrega transacciones para ver tendencias.
               </p>
             )}
           </CardContent>
@@ -1313,7 +1313,7 @@ export function FinancesContent() {
         {/* Spending by Category */}
         <Card>
           <CardHeader>
-            <CardTitle>Spending by Category</CardTitle>
+            <CardTitle>Gastos por Categoría</CardTitle>
           </CardHeader>
           <CardContent>
             {pieData.length > 0 ? (
@@ -1368,7 +1368,7 @@ export function FinancesContent() {
               </>
             ) : (
               <p className="py-12 text-center text-sm text-zinc-400 dark:text-zinc-500">
-                No expenses yet. Add transactions to see categories.
+                Aún no hay gastos. Agrega transacciones para ver categorías.
               </p>
             )}
           </CardContent>
@@ -1379,8 +1379,8 @@ export function FinancesContent() {
       {budgets.length > 0 && (
       <Card>
         <CardHeader>
-          <CardTitle>Budget Progress</CardTitle>
-          <CardDescription>Monthly budget targets</CardDescription>
+          <CardTitle>Progreso del Presupuesto</CardTitle>
+          <CardDescription>Metas de presupuesto mensual</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -1413,7 +1413,7 @@ export function FinancesContent() {
       {/* Recent Expenses */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Expenses</CardTitle>
+          <CardTitle>Gastos Recientes</CardTitle>
         </CardHeader>
         <CardContent>
           {transactions.filter((t) => t.type === "expense").length > 0 ? (
@@ -1461,7 +1461,7 @@ export function FinancesContent() {
             </div>
           ) : (
             <p className="py-8 text-center text-sm text-zinc-400 dark:text-zinc-500">
-              No expenses recorded yet. Click &quot;Add Expense&quot; to get started.
+              Aún no hay gastos registrados. Haz clic en &quot;Agregar Gasto&quot; para comenzar.
             </p>
           )}
         </CardContent>
@@ -1474,10 +1474,10 @@ export function FinancesContent() {
             <div>
               <CardTitle className="flex items-center gap-2">
                 <ArrowRightLeft className="h-5 w-5 text-amber-500" />
-                Currency Exchange
+                Tipo de Cambio
               </CardTitle>
               <CardDescription>
-                CRC/USD rate from BCCR (Banco Central de Costa Rica)
+                Tipo CRC/USD del BCCR (Banco Central de Costa Rica)
               </CardDescription>
             </div>
             <button
@@ -1501,25 +1501,25 @@ export function FinancesContent() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
-                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Buy (Compra)</p>
+                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Compra</p>
                   <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
                     ₡{exchangeRate.compra.toFixed(2)}
                   </p>
-                  <p className="text-xs text-zinc-400 dark:text-zinc-500">per 1 USD</p>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-500">por 1 USD</p>
                 </div>
                 <div className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
-                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Sell (Venta)</p>
+                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Venta</p>
                   <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
                     ₡{exchangeRate.venta.toFixed(2)}
                   </p>
-                  <p className="text-xs text-zinc-400 dark:text-zinc-500">per 1 USD</p>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-500">por 1 USD</p>
                 </div>
               </div>
               <div className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
                 <div className="flex items-center gap-2">
                   <div className="flex-1">
                     <label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                      {convertDirection === "crc-to-usd" ? "CRC (Colones)" : "USD (Dollars)"}
+                      {convertDirection === "crc-to-usd" ? "CRC (Colones)" : "USD (Dólares)"}
                     </label>
                     <Input
                       type="number"
@@ -1541,7 +1541,7 @@ export function FinancesContent() {
                   </button>
                   <div className="flex-1">
                     <label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                      {convertDirection === "crc-to-usd" ? "USD (Dollars)" : "CRC (Colones)"}
+                      {convertDirection === "crc-to-usd" ? "USD (Dólares)" : "CRC (Colones)"}
                     </label>
                     <div className="mt-1 flex h-9 items-center rounded-md border border-zinc-200 bg-zinc-50 px-3 text-sm font-medium dark:border-zinc-800 dark:bg-zinc-900">
                       {convertedAmount !== null
@@ -1553,8 +1553,8 @@ export function FinancesContent() {
                   </div>
                 </div>
                 <p className="mt-2 text-[11px] text-zinc-400 dark:text-zinc-500">
-                  Uses {convertDirection === "crc-to-usd" ? "buy" : "sell"} rate
-                  &middot; Updated {exchangeRate.updated}
+                  Usa tasa de {convertDirection === "crc-to-usd" ? "compra" : "venta"}
+                  &middot; Actualizado {exchangeRate.updated}
                 </p>
               </div>
             </div>
@@ -1565,12 +1565,12 @@ export function FinancesContent() {
       {/* Add Expense Dialog */}
       <Dialog open={showDialog} onClose={() => setShowDialog(false)}>
         <DialogHeader>
-          <DialogTitle>Add Expense</DialogTitle>
+          <DialogTitle>Agregar Gasto</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium">Amount</label>
+              <label className="text-sm font-medium">Monto</label>
               <Input
                 type="number"
                 placeholder="0.00"
@@ -1580,7 +1580,7 @@ export function FinancesContent() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Currency</label>
+              <label className="text-sm font-medium">Moneda</label>
               <Select
                 value={newTx.currency}
                 onChange={(e) => setNewTx({ ...newTx, currency: e.target.value })}
@@ -1595,7 +1595,7 @@ export function FinancesContent() {
             </div>
           </div>
           <div>
-            <label className="text-sm font-medium">Category</label>
+            <label className="text-sm font-medium">Categoría</label>
             <Select
               value={newTx.category}
               onChange={(e) =>
@@ -1611,9 +1611,9 @@ export function FinancesContent() {
             </Select>
           </div>
           <div>
-            <label className="text-sm font-medium">Description</label>
+            <label className="text-sm font-medium">Descripción</label>
             <Input
-              placeholder="What was this for?"
+              placeholder="¿Para qué fue este gasto?"
               value={newTx.description}
               onChange={(e) =>
                 setNewTx({ ...newTx, description: e.target.value })
@@ -1623,13 +1623,13 @@ export function FinancesContent() {
           </div>
           {creditCards.length > 0 && (
             <div>
-              <label className="text-sm font-medium">Paid With (optional)</label>
+              <label className="text-sm font-medium">Pagado con (opcional)</label>
               <Select
                 value={newTx.cardId}
                 onChange={(e) => setNewTx({ ...newTx, cardId: e.target.value })}
                 className="mt-1"
               >
-                <option value="">Cash / Debit</option>
+                <option value="">Efectivo / Débito</option>
                 {creditCards.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.name} (•••• {c.last_four})
@@ -1640,14 +1640,14 @@ export function FinancesContent() {
           )}
           {newTx.currency !== currency && exchangeRate && (
             <p className="text-xs text-zinc-400 dark:text-zinc-500">
-              Will be converted to {currency} using current exchange rate for totals
+              Se convertirá a {currency} usando el tipo de cambio actual
             </p>
           )}
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setShowDialog(false)}>
-              Cancel
+              Cancelar
             </Button>
-            <Button onClick={handleAddTransaction}>Save</Button>
+            <Button onClick={handleAddTransaction}>Guardar</Button>
           </div>
         </div>
       </Dialog>
@@ -1655,7 +1655,7 @@ export function FinancesContent() {
       {/* Edit Income Dialog */}
       <Dialog open={showIncomeDialog} onClose={() => setShowIncomeDialog(false)}>
         <DialogHeader>
-          <DialogTitle>Update Monthly Income</DialogTitle>
+          <DialogTitle>Actualizar Ingreso Mensual</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           {incomeError && (
@@ -1664,7 +1664,7 @@ export function FinancesContent() {
             </div>
           )}
           <div>
-            <label className="text-sm font-medium">Monthly Income</label>
+            <label className="text-sm font-medium">Ingreso Mensual</label>
             <Input
               type="number"
               placeholder="0"
@@ -1675,18 +1675,18 @@ export function FinancesContent() {
               className="mt-1"
             />
             <p className="mt-1.5 text-xs text-zinc-400 dark:text-zinc-500">
-              Currency: {CURRENCIES.find((c) => c.code === incomeCurrency)?.name ?? incomeCurrency}
+              Moneda: {CURRENCIES.find((c) => c.code === incomeCurrency)?.name ?? incomeCurrency}
             </p>
           </div>
           <div className="rounded-lg bg-amber-50 p-3 text-xs text-amber-700 dark:bg-amber-900/20 dark:text-amber-400">
             <Lock className="mr-1 inline h-3 w-3" />
-            After saving, you won&apos;t be able to change this for 30 days.
+            Después de guardar, no podrás cambiar esto por 30 días.
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setShowIncomeDialog(false)}>
-              Cancel
+              Cancelar
             </Button>
-            <Button onClick={handleUpdateIncome}>Save Income</Button>
+            <Button onClick={handleUpdateIncome}>Guardar Ingreso</Button>
           </div>
         </div>
       </Dialog>
@@ -1694,20 +1694,20 @@ export function FinancesContent() {
       {/* Add Income Source Dialog */}
       <Dialog open={showSourceDialog} onClose={() => setShowSourceDialog(false)}>
         <DialogHeader>
-          <DialogTitle>Add Income Source</DialogTitle>
+          <DialogTitle>Agregar Fuente de Ingreso</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           <div>
-            <label className="text-sm font-medium">Source Name</label>
+            <label className="text-sm font-medium">Nombre de la Fuente</label>
             <Input
-              placeholder="e.g. Freelance, Side Hustle, Rental Income"
+              placeholder="Ej. Freelance, Trabajo extra, Alquiler"
               value={newSource.name}
               onChange={(e) => setNewSource({ ...newSource, name: e.target.value })}
               className="mt-1"
             />
           </div>
           <div>
-            <label className="text-sm font-medium">Amount</label>
+            <label className="text-sm font-medium">Monto</label>
             <Input
               type="number"
               placeholder="0"
@@ -1718,25 +1718,25 @@ export function FinancesContent() {
               className="mt-1"
             />
             <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
-              In {CURRENCIES.find((c) => c.code === incomeCurrency)?.name ?? incomeCurrency}
+              En {CURRENCIES.find((c) => c.code === incomeCurrency)?.name ?? incomeCurrency}
             </p>
           </div>
           <div>
-            <label className="text-sm font-medium">Frequency</label>
+            <label className="text-sm font-medium">Frecuencia</label>
             <Select
               value={newSource.frequency}
               onChange={(e) => setNewSource({ ...newSource, frequency: e.target.value as "monthly" | "one-time" })}
               className="mt-1"
             >
-              <option value="monthly">Monthly (recurring)</option>
-              <option value="one-time">One-time</option>
+              <option value="monthly">Mensual (recurrente)</option>
+              <option value="one-time">Único</option>
             </Select>
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setShowSourceDialog(false)}>
-              Cancel
+              Cancelar
             </Button>
-            <Button onClick={handleAddSource}>Add Source</Button>
+            <Button onClick={handleAddSource}>Agregar Fuente</Button>
           </div>
         </div>
       </Dialog>
@@ -1744,13 +1744,13 @@ export function FinancesContent() {
       {/* Add Recurring Expense Dialog */}
       <Dialog open={showRecurringDialog} onClose={() => setShowRecurringDialog(false)}>
         <DialogHeader>
-          <DialogTitle>Add Fixed Monthly Bill</DialogTitle>
+          <DialogTitle>Agregar Gasto Fijo Mensual</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           <div>
-            <label className="text-sm font-medium">Bill Name</label>
+            <label className="text-sm font-medium">Nombre del Gasto</label>
             <Input
-              placeholder="e.g. Rent, Netflix, Insurance"
+              placeholder="Ej. Alquiler, Netflix, Seguro"
               value={newRecurring.name}
               onChange={(e) => setNewRecurring({ ...newRecurring, name: e.target.value })}
               className="mt-1"
@@ -1758,7 +1758,7 @@ export function FinancesContent() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium">Monthly Amount</label>
+              <label className="text-sm font-medium">Monto Mensual</label>
               <Input
                 type="number"
                 placeholder="0"
@@ -1770,7 +1770,7 @@ export function FinancesContent() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Currency</label>
+              <label className="text-sm font-medium">Moneda</label>
               <Select
                 value={newRecurring.currency}
                 onChange={(e) => setNewRecurring({ ...newRecurring, currency: e.target.value })}
@@ -1785,7 +1785,7 @@ export function FinancesContent() {
             </div>
           </div>
           <div>
-            <label className="text-sm font-medium">Category</label>
+            <label className="text-sm font-medium">Categoría</label>
             <Select
               value={newRecurring.category}
               onChange={(e) => setNewRecurring({ ...newRecurring, category: e.target.value })}
@@ -1798,9 +1798,9 @@ export function FinancesContent() {
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setShowRecurringDialog(false)}>
-              Cancel
+              Cancelar
             </Button>
-            <Button onClick={handleAddRecurring}>Add Bill</Button>
+            <Button onClick={handleAddRecurring}>Agregar Gasto</Button>
           </div>
         </div>
       </Dialog>
@@ -1808,20 +1808,20 @@ export function FinancesContent() {
       {/* Add Investment Dialog */}
       <Dialog open={showInvestDialog} onClose={() => setShowInvestDialog(false)}>
         <DialogHeader>
-          <DialogTitle>Add Investment</DialogTitle>
+          <DialogTitle>Agregar Inversión</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           <div>
-            <label className="text-sm font-medium">Investment Name</label>
+            <label className="text-sm font-medium">Nombre de la Inversión</label>
             <Input
-              placeholder="e.g. S&P 500, Bitcoin, Savings Bond"
+              placeholder="Ej. S&P 500, Bitcoin, Bono"
               value={newInvest.name}
               onChange={(e) => setNewInvest({ ...newInvest, name: e.target.value })}
               className="mt-1"
             />
           </div>
           <div>
-            <label className="text-sm font-medium">Amount</label>
+            <label className="text-sm font-medium">Monto</label>
             <Input
               type="number"
               placeholder="0"
@@ -1833,9 +1833,9 @@ export function FinancesContent() {
             />
           </div>
           <div>
-            <label className="text-sm font-medium">Notes (optional)</label>
+            <label className="text-sm font-medium">Notas (opcional)</label>
             <Input
-              placeholder="e.g. Monthly DCA, Lump sum"
+              placeholder="Ej. DCA mensual, Aporte único"
               value={newInvest.notes}
               onChange={(e) => setNewInvest({ ...newInvest, notes: e.target.value })}
               className="mt-1"
@@ -1843,13 +1843,13 @@ export function FinancesContent() {
           </div>
           <div className="rounded-lg bg-purple-50 p-3 text-xs text-purple-700 dark:bg-purple-900/20 dark:text-purple-400">
             <Landmark className="mr-1 inline h-3 w-3" />
-            This reduces your remaining income but won&apos;t count as an expense.
+            Esto reduce tu ingreso disponible pero no cuenta como gasto.
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setShowInvestDialog(false)}>
-              Cancel
+              Cancelar
             </Button>
-            <Button onClick={handleAddInvestment}>Add Investment</Button>
+            <Button onClick={handleAddInvestment}>Agregar Inversión</Button>
           </div>
         </div>
       </Dialog>
@@ -1857,21 +1857,21 @@ export function FinancesContent() {
       {/* Add Credit Card Dialog */}
       <Dialog open={showCardDialog} onClose={() => setShowCardDialog(false)}>
         <DialogHeader>
-          <DialogTitle>Add Credit Card</DialogTitle>
+          <DialogTitle>Agregar Tarjeta de Crédito</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium">Card Name</label>
+              <label className="text-sm font-medium">Nombre de la Tarjeta</label>
               <Input
-                placeholder="e.g. Visa Gold"
+                placeholder="Ej. Visa Gold"
                 value={newCard.name}
                 onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
                 className="mt-1"
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Last 4 Digits</label>
+              <label className="text-sm font-medium">Últimos 4 Dígitos</label>
               <Input
                 placeholder="1234"
                 maxLength={4}
@@ -1882,7 +1882,7 @@ export function FinancesContent() {
             </div>
           </div>
           <div>
-            <label className="text-sm font-medium">Credit Limit (USD)</label>
+            <label className="text-sm font-medium">Límite de Crédito (USD)</label>
             <Input
               type="number"
               placeholder="0"
@@ -1899,7 +1899,7 @@ export function FinancesContent() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium">Current CRC Balance</label>
+              <label className="text-sm font-medium">Saldo Actual CRC</label>
               <Input
                 type="number"
                 placeholder="0"
@@ -1909,10 +1909,10 @@ export function FinancesContent() {
                 onChange={(e) => setNewCard({ ...newCard, balance_crc: e.target.value })}
                 className="mt-1"
               />
-              <p className="mt-0.5 text-[10px] text-zinc-400">Amount owed in ₡</p>
+              <p className="mt-0.5 text-[10px] text-zinc-400">Monto adeudado en ₡</p>
             </div>
             <div>
-              <label className="text-sm font-medium">Current USD Balance</label>
+              <label className="text-sm font-medium">Saldo Actual USD</label>
               <Input
                 type="number"
                 placeholder="0"
@@ -1922,12 +1922,12 @@ export function FinancesContent() {
                 onChange={(e) => setNewCard({ ...newCard, balance_usd: e.target.value })}
                 className="mt-1"
               />
-              <p className="mt-0.5 text-[10px] text-zinc-400">Amount owed in $</p>
+              <p className="mt-0.5 text-[10px] text-zinc-400">Monto adeudado en $</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium">Billing Day</label>
+              <label className="text-sm font-medium">Día de Corte</label>
               <Input
                 type="number"
                 min={1}
@@ -1936,10 +1936,10 @@ export function FinancesContent() {
                 onChange={(e) => setNewCard({ ...newCard, billing_date: e.target.value })}
                 className="mt-1"
               />
-              <p className="mt-0.5 text-[10px] text-zinc-400">Day of month</p>
+              <p className="mt-0.5 text-[10px] text-zinc-400">Día del mes</p>
             </div>
             <div>
-              <label className="text-sm font-medium">Due Day</label>
+              <label className="text-sm font-medium">Día de Pago</label>
               <Input
                 type="number"
                 min={1}
@@ -1948,14 +1948,14 @@ export function FinancesContent() {
                 onChange={(e) => setNewCard({ ...newCard, due_date: e.target.value })}
                 className="mt-1"
               />
-              <p className="mt-0.5 text-[10px] text-zinc-400">Payment due day</p>
+              <p className="mt-0.5 text-[10px] text-zinc-400">Día límite de pago</p>
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setShowCardDialog(false)}>
-              Cancel
+              Cancelar
             </Button>
-            <Button onClick={handleAddCard}>Add Card</Button>
+            <Button onClick={handleAddCard}>Agregar Tarjeta</Button>
           </div>
         </div>
       </Dialog>
@@ -1963,17 +1963,17 @@ export function FinancesContent() {
       {/* Log Payment Dialog */}
       <Dialog open={showPaymentDialog} onClose={() => { setShowPaymentDialog(false); setPaymentCardId(null); setPaymentAmount(""); setPaymentCurrency("CRC"); }}>
         <DialogHeader>
-          <DialogTitle>Log Card Payment</DialogTitle>
+          <DialogTitle>Registrar Pago de Tarjeta</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           <div>
-            <label className="text-sm font-medium">Select Card</label>
+            <label className="text-sm font-medium">Seleccionar Tarjeta</label>
             <Select
               value={paymentCardId ?? ""}
               onChange={(e) => setPaymentCardId(e.target.value || null)}
               className="mt-1"
             >
-              <option value="">Choose a card...</option>
+              <option value="">Elegir una tarjeta...</option>
               {creditCards.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name} (•••• {c.last_four})
@@ -1986,15 +1986,15 @@ export function FinancesContent() {
             if (!sel) return null;
             return (
               <div className="rounded-lg border border-zinc-200 p-3 text-xs dark:border-zinc-800 space-y-0.5">
-                <p className="text-zinc-500 dark:text-zinc-400">CRC balance: {formatCurrency(sel.balance_crc, "CRC")}</p>
-                <p className="text-zinc-500 dark:text-zinc-400">USD balance: {formatCurrency(sel.balance_usd, "USD")}</p>
-                <p className="text-zinc-400 dark:text-zinc-500">Limit: {formatCurrency(sel.credit_limit, "USD")}</p>
+                <p className="text-zinc-500 dark:text-zinc-400">Saldo CRC: {formatCurrency(sel.balance_crc, "CRC")}</p>
+                <p className="text-zinc-500 dark:text-zinc-400">Saldo USD: {formatCurrency(sel.balance_usd, "USD")}</p>
+                <p className="text-zinc-400 dark:text-zinc-500">Límite: {formatCurrency(sel.credit_limit, "USD")}</p>
               </div>
             );
           })()}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium">Payment Amount</label>
+              <label className="text-sm font-medium">Monto del Pago</label>
               <Input
                 type="number"
                 placeholder="0"
@@ -2006,7 +2006,7 @@ export function FinancesContent() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Currency</label>
+              <label className="text-sm font-medium">Moneda</label>
               <Select
                 value={paymentCurrency}
                 onChange={(e) => setPaymentCurrency(e.target.value as "CRC" | "USD")}
@@ -2019,14 +2019,14 @@ export function FinancesContent() {
           </div>
           <div className="rounded-lg bg-sky-50 p-3 text-xs text-sky-700 dark:bg-sky-900/20 dark:text-sky-400">
             <Wallet className="mr-1 inline h-3 w-3" />
-            This reduces your card&apos;s {paymentCurrency} balance. The expense was already counted when you logged it.
+            Esto reduce el saldo en {paymentCurrency} de tu tarjeta. El gasto ya fue contado cuando lo registraste.
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => { setShowPaymentDialog(false); setPaymentCardId(null); setPaymentAmount(""); setPaymentCurrency("CRC"); }}>
-              Cancel
+              Cancelar
             </Button>
             <Button onClick={handleLogPayment} disabled={!paymentCardId || !paymentAmount}>
-              Log Payment
+              Registrar Pago
             </Button>
           </div>
         </div>

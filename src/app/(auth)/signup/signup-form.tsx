@@ -34,9 +34,9 @@ export function SignupForm() {
           <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 dark:bg-orange-900/30">
             <Flame className="h-6 w-6 text-orange-500" />
           </div>
-          <CardTitle className="text-2xl">Create your account</CardTitle>
+          <CardTitle className="text-2xl">Crea tu cuenta</CardTitle>
           <CardDescription>
-            Start tracking your personal growth
+            Comienza a rastrear tu crecimiento personal
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -64,7 +64,7 @@ export function SignupForm() {
                   fill="#EA4335"
                 />
               </svg>
-              Continue with Google
+              Continuar con Google
             </Button>
           </form>
 
@@ -74,7 +74,7 @@ export function SignupForm() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-white px-2 text-zinc-500 dark:bg-zinc-950 dark:text-zinc-400">
-                or continue with email
+                o continuar con correo
               </span>
             </div>
           </div>
@@ -92,39 +92,39 @@ export function SignupForm() {
             )}
             <div>
               <label htmlFor="fullName" className="text-sm font-medium">
-                Full Name
+                Nombre completo
               </label>
               <Input
                 id="fullName"
                 name="fullName"
                 type="text"
-                placeholder="John Doe"
+                placeholder="Tu nombre"
                 required
                 className="mt-1"
               />
             </div>
             <div>
               <label htmlFor="email" className="text-sm font-medium">
-                Email
+                Correo electrónico
               </label>
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder="tu@ejemplo.com"
                 required
                 className="mt-1"
               />
             </div>
             <div>
               <label htmlFor="password" className="text-sm font-medium">
-                Password
+                Contraseña
               </label>
               <Input
                 id="password"
                 name="password"
                 type="password"
-                placeholder="Min 6 characters"
+                placeholder="Mínimo 6 caracteres"
                 minLength={6}
                 required
                 className="mt-1"
@@ -134,17 +134,17 @@ export function SignupForm() {
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                "Create Account"
+                "Crear Cuenta"
               )}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
-            Already have an account?{" "}
+            ¿Ya tienes cuenta?{" "}
             <Link
               href="/login"
               className="font-medium text-zinc-900 hover:underline dark:text-zinc-50"
             >
-              Sign in
+              Inicia sesión
             </Link>
           </p>
         </CardContent>

@@ -68,7 +68,7 @@ const getLast7Days = () => {
     d.setDate(d.getDate() - i);
     days.push({
       date: d.toISOString().split("T")[0],
-      label: d.toLocaleDateString("en-US", { weekday: "short" }),
+      label: d.toLocaleDateString("es", { weekday: "short" }),
       day: d.getDate(),
     });
   }
@@ -258,14 +258,14 @@ export function HabitsContent() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Habits</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Hábitos</h1>
           <p className="text-zinc-500 dark:text-zinc-400">
-            Build consistency, track your streaks.
+            Construye consistencia, rastrea tus rachas.
           </p>
         </div>
         <Button onClick={() => setShowDialog(true)}>
           <Plus className="h-4 w-4" />
-          New Habit
+          Nuevo Hábito
         </Button>
       </div>
 
@@ -278,7 +278,7 @@ export function HabitsContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Today&apos;s Progress
+                Progreso de Hoy
               </p>
               <p className="text-xl font-bold">
                 {todayCompleted}/{habits.length}
@@ -293,7 +293,7 @@ export function HabitsContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Completion Rate
+                Tasa de Completado
               </p>
               <p className="text-xl font-bold">{completionRate}%</p>
             </div>
@@ -306,9 +306,9 @@ export function HabitsContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Best Streak
+                Mejor Racha
               </p>
-              <p className="text-xl font-bold">{bestStreak} days</p>
+              <p className="text-xl font-bold">{bestStreak} días</p>
             </div>
           </CardContent>
         </Card>
@@ -317,7 +317,7 @@ export function HabitsContent() {
       {/* Overall Progress */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Today&apos;s Progress</CardTitle>
+          <CardTitle className="text-base">Progreso de Hoy</CardTitle>
         </CardHeader>
         <CardContent>
           <Progress
@@ -327,7 +327,7 @@ export function HabitsContent() {
             indicatorClassName="bg-gradient-to-r from-purple-500 to-pink-500"
           />
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-            {todayCompleted} of {habits.length} habits completed today
+            {todayCompleted} de {habits.length} hábitos completados hoy
           </p>
         </CardContent>
       </Card>
@@ -335,15 +335,15 @@ export function HabitsContent() {
       {/* Habit Tracker Grid */}
       <Card>
         <CardHeader>
-          <CardTitle>Weekly Tracker</CardTitle>
-          <CardDescription>Click to toggle completion</CardDescription>
+          <CardTitle>Seguimiento Semanal</CardTitle>
+          <CardDescription>Haz clic para marcar como completado</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {/* Header row */}
             <div className="grid grid-cols-[1fr_repeat(7,40px)_60px] gap-2 items-center">
               <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                Habit
+                Hábito
               </div>
               {last7.map((d) => (
                 <div
@@ -355,7 +355,7 @@ export function HabitsContent() {
                 </div>
               ))}
               <div className="text-center text-xs text-zinc-500 dark:text-zinc-400">
-                Streak
+                Racha
               </div>
             </div>
 
@@ -424,13 +424,13 @@ export function HabitsContent() {
       {/* Add Habit Dialog */}
       <Dialog open={showDialog} onClose={() => setShowDialog(false)}>
         <DialogHeader>
-          <DialogTitle>New Habit</DialogTitle>
+          <DialogTitle>Nuevo Hábito</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           <div>
-            <label className="text-sm font-medium">Habit Name</label>
+            <label className="text-sm font-medium">Nombre del Hábito</label>
             <Input
-              placeholder="e.g. Read 30 minutes"
+              placeholder="Ej. Leer 30 minutos"
               value={newHabit.name}
               onChange={(e) =>
                 setNewHabit({ ...newHabit, name: e.target.value })
@@ -439,7 +439,7 @@ export function HabitsContent() {
             />
           </div>
           <div>
-            <label className="text-sm font-medium">Icon</label>
+            <label className="text-sm font-medium">Ícono</label>
             <Select
               value={newHabit.icon}
               onChange={(e) =>
@@ -471,7 +471,7 @@ export function HabitsContent() {
             </div>
           </div>
           <div>
-            <label className="text-sm font-medium">Frequency</label>
+            <label className="text-sm font-medium">Frecuencia</label>
             <Select
               value={newHabit.frequency}
               onChange={(e) =>
@@ -482,15 +482,15 @@ export function HabitsContent() {
               }
               className="mt-1"
             >
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
+              <option value="daily">Diario</option>
+              <option value="weekly">Semanal</option>
             </Select>
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setShowDialog(false)}>
-              Cancel
+              Cancelar
             </Button>
-            <Button onClick={handleAddHabit}>Create Habit</Button>
+            <Button onClick={handleAddHabit}>Crear Hábito</Button>
           </div>
         </div>
       </Dialog>

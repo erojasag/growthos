@@ -43,12 +43,12 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
             <Flame className="h-7 w-7 text-orange-500" />
           </div>
           <CardTitle className="text-2xl">
-            {step === 0 ? "Welcome to GrowthOS!" : "Set Up Your Finances"}
+            {step === 0 ? "¡Bienvenido a GrowthOS!" : "Configura tus Finanzas"}
           </CardTitle>
           <CardDescription>
             {step === 0
-              ? "Let's personalize your experience"
-              : "Configure your income and currency preferences"}
+              ? "Personalicemos tu experiencia"
+              : "Configura tus preferencias de ingreso y moneda"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -63,19 +63,19 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
               <div className="space-y-4">
                 <div>
                   <label htmlFor="fullName" className="text-sm font-medium">
-                    Your Name
+                    Tu Nombre
                   </label>
                   <Input
                     id="fullName"
                     name="fullName"
                     defaultValue={defaultName}
-                    placeholder="John Doe"
+                    placeholder="Tu nombre"
                     required
                     className="mt-1"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium">Email</label>
+                  <label className="text-sm font-medium">Correo</label>
                   <Input
                     value={email}
                     disabled
@@ -87,7 +87,7 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
                   className="w-full"
                   onClick={() => setStep(1)}
                 >
-                  Continue
+                  Continuar
                 </Button>
               </div>
             )}
@@ -103,7 +103,7 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
                     className="flex items-center gap-2 text-sm font-medium"
                   >
                     <DollarSign className="h-4 w-4 text-emerald-500" />
-                    Monthly Income
+                    Ingreso Mensual
                   </label>
                   <Input
                     id="monthlyIncome"
@@ -116,7 +116,7 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
                     className="mt-1"
                   />
                   <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
-                    You can update this once every 30 days
+                    Puedes actualizar esto cada 30 días
                   </p>
                 </div>
 
@@ -126,7 +126,7 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
                     className="flex items-center gap-2 text-sm font-medium"
                   >
                     <Wallet className="h-4 w-4 text-blue-500" />
-                    Income Currency
+                    Moneda de Ingreso
                   </label>
                   <Select
                     id="incomeCurrency"
@@ -141,7 +141,7 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
                     ))}
                   </Select>
                   <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
-                    The currency your salary/income is paid in
+                    La moneda en la que recibes tu salario
                   </p>
                 </div>
 
@@ -151,7 +151,7 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
                     className="flex items-center gap-2 text-sm font-medium"
                   >
                     <Wallet className="h-4 w-4 text-purple-500" />
-                    Spending Currency
+                    Moneda de Gastos
                   </label>
                   <Select
                     id="spendingCurrency"
@@ -166,7 +166,7 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
                     ))}
                   </Select>
                   <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
-                    The currency you track daily expenses in
+                    La moneda en la que registras gastos diarios
                   </p>
                 </div>
 
@@ -177,13 +177,13 @@ export function SetupForm({ defaultName, email }: SetupFormProps) {
                     className="flex-1"
                     onClick={() => setStep(0)}
                   >
-                    Back
+                    Atrás
                   </Button>
                   <Button type="submit" className="flex-1" disabled={loading}>
                     {loading ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
-                      "Get Started"
+                      "Comenzar"
                     )}
                   </Button>
                 </div>

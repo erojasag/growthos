@@ -43,14 +43,14 @@ interface Workout {
 }
 
 const workoutTypes = [
-  "Strength",
+  "Fuerza",
   "Cardio",
   "HIIT",
   "Yoga",
-  "Swimming",
-  "Cycling",
-  "Running",
-  "Other",
+  "Natación",
+  "Ciclismo",
+  "Correr",
+  "Otro",
 ];
 
 
@@ -61,7 +61,7 @@ export function FitnessContent() {
   const [showDialog, setShowDialog] = useState(false);
   const [newWorkout, setNewWorkout] = useState({
     name: "",
-    type: "Strength",
+    type: "Fuerza",
     duration: "",
     calories: "",
   });
@@ -118,7 +118,7 @@ export function FitnessContent() {
     if (metricsData && metricsData.length > 0) {
       setWeightData(
         metricsData.map((m) => ({
-          date: new Date(m.recorded_at).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+          date: new Date(m.recorded_at).toLocaleDateString("es", { month: "short", day: "numeric" }),
           weight: Number(m.weight),
         }))
       );
@@ -190,12 +190,12 @@ export function FitnessContent() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Fitness</h1>
           <p className="text-zinc-500 dark:text-zinc-400">
-            Track your workouts and body metrics.
+            Registra tus entrenamientos y métricas corporales.
           </p>
         </div>
         <Button onClick={() => setShowDialog(true)}>
           <Plus className="h-4 w-4" />
-          Log Workout
+          Registrar Entreno
         </Button>
       </div>
 
@@ -208,7 +208,7 @@ export function FitnessContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Total Workouts
+                Total Entrenos
               </p>
               <p className="text-xl font-bold">{workouts.length}</p>
             </div>
@@ -221,7 +221,7 @@ export function FitnessContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Total Minutes
+                Minutos Totales
               </p>
               <p className="text-xl font-bold">{totalDuration}</p>
             </div>
@@ -234,7 +234,7 @@ export function FitnessContent() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Calories Burned
+                Calorías Quemadas
               </p>
               <p className="text-xl font-bold">{totalCalories.toLocaleString()}</p>
             </div>
@@ -248,9 +248,9 @@ export function FitnessContent() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-emerald-500" />
-              Weight Progress
+              Progreso de Peso
             </CardTitle>
-            <CardDescription>Your weight trend over time</CardDescription>
+            <CardDescription>Tu tendencia de peso a lo largo del tiempo</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[250px]">
@@ -282,7 +282,7 @@ export function FitnessContent() {
                     stroke="#10b981"
                     strokeWidth={2}
                     dot={{ fill: "#10b981", r: 4 }}
-                    name="Weight (lbs)"
+                    name="Peso (lbs)"
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -293,7 +293,7 @@ export function FitnessContent() {
         {/* Workout List */}
         <Card>
           <CardHeader>
-            <CardTitle>Recent Workouts</CardTitle>
+            <CardTitle>Entrenamientos Recientes</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3 max-h-[300px] overflow-y-auto">
@@ -336,13 +336,13 @@ export function FitnessContent() {
       {/* Add Workout Dialog */}
       <Dialog open={showDialog} onClose={() => setShowDialog(false)}>
         <DialogHeader>
-          <DialogTitle>Log Workout</DialogTitle>
+          <DialogTitle>Registrar Entreno</DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-4">
           <div>
-            <label className="text-sm font-medium">Workout Name</label>
+            <label className="text-sm font-medium">Nombre del Entreno</label>
             <Input
-              placeholder="e.g. Morning Run"
+              placeholder="Ej. Carrera matutina"
               value={newWorkout.name}
               onChange={(e) =>
                 setNewWorkout({ ...newWorkout, name: e.target.value })
@@ -351,7 +351,7 @@ export function FitnessContent() {
             />
           </div>
           <div>
-            <label className="text-sm font-medium">Type</label>
+            <label className="text-sm font-medium">Tipo</label>
             <Select
               value={newWorkout.type}
               onChange={(e) =>
@@ -368,7 +368,7 @@ export function FitnessContent() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium">Duration (min)</label>
+              <label className="text-sm font-medium">Duración (min)</label>
               <Input
                 type="number"
                 placeholder="30"
@@ -380,7 +380,7 @@ export function FitnessContent() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Calories</label>
+              <label className="text-sm font-medium">Calorías</label>
               <Input
                 type="number"
                 placeholder="300"
@@ -394,9 +394,9 @@ export function FitnessContent() {
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setShowDialog(false)}>
-              Cancel
+              Cancelar
             </Button>
-            <Button onClick={handleAddWorkout}>Save Workout</Button>
+            <Button onClick={handleAddWorkout}>Guardar Entreno</Button>
           </div>
         </div>
       </Dialog>

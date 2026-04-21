@@ -44,10 +44,10 @@ interface DashboardData {
 function timeAgo(dateStr: string) {
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `${mins}m ago`;
+  if (mins < 60) return `hace ${mins}m`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  return `${Math.floor(hours / 24)}d ago`;
+  if (hours < 24) return `hace ${hours}h`;
+  return `hace ${Math.floor(hours / 24)}d`;
 }
 
 function getStreak(dates: string[]): number {
@@ -116,7 +116,7 @@ export function DashboardContent() {
     const allDates = (entriesRes.data || []).map((e) => e.completed_at);
     const currentStreak = getStreak(allDates);
 
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const days = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
     const weeklyData = days.map((day, i) => {
       const d = new Date(startOfWeek);
       d.setDate(d.getDate() + i);
@@ -190,9 +190,9 @@ export function DashboardContent() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Panel</h1>
         <p className="text-zinc-500 dark:text-zinc-400">
-          Your personal growth at a glance.
+          Tu crecimiento personal de un vistazo.
         </p>
       </div>
 
@@ -202,7 +202,7 @@ export function DashboardContent() {
           <Card className="hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                Workouts This Week
+                Entrenamientos Esta Semana
               </CardTitle>
               <Dumbbell className="h-4 w-4 text-blue-500" />
             </CardHeader>
@@ -210,7 +210,7 @@ export function DashboardContent() {
               <div className="text-2xl font-bold">{data.workoutsThisWeek}</div>
               <div className={`flex items-center gap-1 text-xs ${data.workoutsDelta >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
                 {data.workoutsDelta >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                {data.workoutsDelta >= 0 ? "+" : ""}{data.workoutsDelta} from last week
+                {data.workoutsDelta >= 0 ? "+" : ""}{data.workoutsDelta} vs semana pasada
               </div>
             </CardContent>
           </Card>
@@ -220,7 +220,7 @@ export function DashboardContent() {
           <Card className="hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                Monthly Spending
+                Gastos del Mes
               </CardTitle>
               <Wallet className="h-4 w-4 text-emerald-500" />
             </CardHeader>
@@ -228,7 +228,7 @@ export function DashboardContent() {
               <div className="text-2xl font-bold">{formatCurrency(data.monthlySpending, data.spendingCurrency)}</div>
               <div className={`flex items-center gap-1 text-xs ${data.spendingDelta <= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
                 {data.spendingDelta > 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                {data.spendingDelta > 0 ? "+" : ""}{data.spendingDelta}% from last month
+                {data.spendingDelta > 0 ? "+" : ""}{data.spendingDelta}% vs mes pasado
               </div>
             </CardContent>
           </Card>
@@ -238,7 +238,7 @@ export function DashboardContent() {
           <Card className="hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                Habits Completed
+                Hábitos Completados
               </CardTitle>
               <Target className="h-4 w-4 text-purple-500" />
             </CardHeader>
@@ -256,15 +256,15 @@ export function DashboardContent() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-              Current Streak
+              Racha Actual
             </CardTitle>
             <Flame className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.currentStreak} days</div>
+            <div className="text-2xl font-bold">{data.currentStreak} días</div>
             <div className="flex items-center gap-1 text-xs text-orange-600 dark:text-orange-400">
               <TrendingUp className="h-3 w-3" />
-              Best: {data.bestStreak} days
+              Mejor: {data.bestStreak} días
             </div>
           </CardContent>
         </Card>
@@ -274,7 +274,7 @@ export function DashboardContent() {
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Weekly Overview</CardTitle>
+            <CardTitle>Resumen Semanal</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
@@ -305,7 +305,7 @@ export function DashboardContent() {
                     stroke="#a855f7"
                     fill="#a855f7"
                     fillOpacity={0.2}
-                    name="Habits"
+                    name="Hábitos"
                   />
                   <Area
                     type="monotone"
@@ -314,7 +314,7 @@ export function DashboardContent() {
                     stroke="#3b82f6"
                     fill="#3b82f6"
                     fillOpacity={0.2}
-                    name="Workouts"
+                    name="Entrenamientos"
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -324,12 +324,12 @@ export function DashboardContent() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
+            <CardTitle>Actividad Reciente</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {data.recentActivity.length === 0 ? (
-                <p className="text-sm text-zinc-400 dark:text-zinc-500">No recent activity yet.</p>
+                <p className="text-sm text-zinc-400 dark:text-zinc-500">Aún no hay actividad reciente.</p>
               ) : data.recentActivity.map((item, i) => {
                 const Icon = item.icon;
                 return (

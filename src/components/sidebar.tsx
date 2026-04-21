@@ -19,10 +19,10 @@ import { createClient } from "@/lib/supabase/client";
 import { logout } from "@/app/actions/auth";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Panel", href: "/dashboard", icon: LayoutDashboard },
   { name: "Fitness", href: "/fitness", icon: Dumbbell },
-  { name: "Finances", href: "/finances", icon: Wallet },
-  { name: "Habits", href: "/habits", icon: Target },
+  { name: "Finanzas", href: "/finances", icon: Wallet },
+  { name: "Hábitos", href: "/habits", icon: Target },
 ];
 
 export function Sidebar() {
@@ -139,7 +139,7 @@ export function Sidebar() {
                 className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
               >
                 <LogOut className="h-4 w-4" />
-                Sign Out
+                Cerrar Sesión
               </button>
             </form>
           </div>

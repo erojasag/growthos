@@ -29,9 +29,9 @@ export function LoginForm() {
           <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 dark:bg-orange-900/30">
             <Flame className="h-6 w-6 text-orange-500" />
           </div>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
+          <CardTitle className="text-2xl">Bienvenido de vuelta</CardTitle>
           <CardDescription>
-            Sign in to your GrowthOS account
+            Inicia sesión en tu cuenta de GrowthOS
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -59,7 +59,7 @@ export function LoginForm() {
                   fill="#EA4335"
                 />
               </svg>
-              Continue with Google
+              Continuar con Google
             </Button>
           </form>
 
@@ -69,7 +69,7 @@ export function LoginForm() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-white px-2 text-zinc-500 dark:bg-zinc-950 dark:text-zinc-400">
-                or continue with email
+                o continuar con correo
               </span>
             </div>
           </div>
@@ -82,26 +82,26 @@ export function LoginForm() {
             )}
             <div>
               <label htmlFor="email" className="text-sm font-medium">
-                Email
+                Correo electrónico
               </label>
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder="tu@ejemplo.com"
                 required
                 className="mt-1"
               />
             </div>
             <div>
               <label htmlFor="password" className="text-sm font-medium">
-                Password
+                Contraseña
               </label>
               <Input
                 id="password"
                 name="password"
                 type="password"
-                placeholder="Your password"
+                placeholder="Tu contraseña"
                 required
                 className="mt-1"
               />
@@ -110,17 +110,17 @@ export function LoginForm() {
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                "Sign In"
+                "Iniciar Sesión"
               )}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
-            Don&apos;t have an account?{" "}
+            ¿No tienes cuenta?{" "}
             <Link
               href="/signup"
               className="font-medium text-zinc-900 hover:underline dark:text-zinc-50"
             >
-              Sign up
+              Regístrate
             </Link>
           </p>
         </CardContent>
