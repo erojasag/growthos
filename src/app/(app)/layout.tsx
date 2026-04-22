@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
+import { IdleTimeout } from "@/components/idle-timeout";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AppLayout({
@@ -24,6 +25,7 @@ export default async function AppLayout({
 
   return (
     <div className="h-full">
+      <IdleTimeout />
       <Sidebar />
       <div className="lg:pl-64">
         <main className="min-h-screen">
